@@ -1,0 +1,79 @@
+#!/bin/bash
+
+# Help
+Help()
+{
+   # Display Help
+   echo "CobaltPyCrypter is a script that will allow you to generate encrypted payload to bypass Defender."
+   echo
+   echo "Usage: ./CobaltPyCrypter [-h] [-f] [-s] [-o]"
+   echo "options:"
+   echo "   -h, --help         Show this help message and exit"
+   echo "   -f, --file         File with ShellCode in Bytes Name"
+   echo "   -s, --secret       Secret"
+   echo "   -o, --output       Output File Name"
+   echo
+   exit 1
+}
+
+install_requirements()
+{
+   pip install ./requirements.txt
+   echo "Installing pip packages from requirements.txt..."
+}
+
+run_python_script()
+{
+    output=$(python3 ./encryptor.py -f "$filename" -s "$secret" -o "$output")
+    echo "Running encryptor"
+}
+
+generate_exe_file()
+{
+    pyinstaller --onefile pythonScriptName.py
+    echo "Generating EXE file..."
+}
+
+
+filename=
+secret=
+output=
+if [ $# -eq 0 ]; then
+  Help
+fi
+
+while [[ $# -gt 0 ]]; do
+  key="$1"
+  case $key in
+      -f | --filename)
+      filename="$2"
+      shift
+      ;;
+      -s | --secret)
+      secret="$2"
+      shift
+      ;;
+      -o | --output)
+      output="$2"
+      shift
+      ;;
+      -h | --help)
+      Help
+      ;;
+    *)
+      # Unknown parameter
+      echo "Unknown parameter: $key"
+      ;;
+  esac
+  shift
+done
+
+# Check if all required parameters are provided
+if [ -z "$filename" ] || [ -z "$secret" ] || [ -z "$output" ]; then
+  echo "Error: Missing required parameters."
+  echo "Please provide values for -f, -s, and -o options."
+  exit 1
+fi
+
+script_output=$(run_python_script)
+
