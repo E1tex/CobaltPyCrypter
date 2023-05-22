@@ -8,18 +8,17 @@ Use Git clone to install CobaltPyCrypter.
 
 ```bash
 git clone https://github.com/E1tex/CobaltPyCrypter.git
-pip install requirements.txt
 ```
 
 ## Usage
 
 ```bash
-chmod +x ./encryptor.py 
+chmod +x ./CobaltPyCrypter
 ```
-```python
-./encryptor.py --help
+```bash
+./CobaltPyCrypter --help
 Example:
-./encryptor.py -f bytes.txt -o test.py
+./CobaltPyCrypter -f bytes.txt -o test.py -s secret123
 ```
 
 ## Contributing
