@@ -19,7 +19,7 @@ chmod +x ./encryptor.py
 ```python
 ./encryptor.py --help
 Example:
-./encoder.py -f bytes.txt -o test.py
+./encryptor.py -f bytes.txt -o test.py
 ```
 
 ## Contributing
