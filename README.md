@@ -29,4 +29,4 @@ For major changes, please open an issue first to discuss what you would like to 
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT](https://github.com/E1tex/CobaltPyCrypter/blob/main/LICENSE)
